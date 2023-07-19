@@ -1,0 +1,116 @@
+plugins {
+    id 'application'
+    // next plugin in buildSrc because of limited platforms
+    //id 'org.openjfx.javafxplugin' version '0.0.14'
+    id 'com.github.johnrengelman.shadow' version '8.1.1'
+    id "org.beryx.jlink" version "2.26.0"
+}
+
+defaultTasks 'build'
+
+repositories {
+    mavenCentral()
+}
+
+apply plugin: 'nl.nlcode.javafxplugin'
+
+javafx {
+    version = '17.0.7'
+    modules = [ \
+        'javafx.controls',
+        'javafx.fxml',
+    ]
+}
+
+sourceCompatibility = JavaVersion.VERSION_17
+targetCompatibility = JavaVersion.VERSION_17
+
+application {
+    mainClass = 'githubtest.m.JfxLauncher'
+    mainModule = 'githubtest.m'
+    applicationName = 'm_githubtest'
+}
+
+test {
+    useJUnitPlatform()
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+}
+
+group = 'githubtest'
+version = '1.0.0'
+
+ext {
+    jacksonVersion = '2.14.2'
+}
+
+dependencies {
+    implementation group: 'org.slf4j', name: 'slf4j-api', version: '2.0.7';
+    implementation group: 'ch.qos.logback', name: 'logback-classic', version: '1.4.8'
+    implementation group: 'org.controlsfx', name: 'controlsfx', version: '11.1.2'
+    implementation group: 'uk.co.xfactory-librarians', name: 'coremidi4j', version: '1.6'
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: "$jacksonVersion"
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: "$jacksonVersion"
+    implementation group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: "$jacksonVersion"
+
+    //testImplementation 'org.hamcrest:hamcrest:2.2'
+    testImplementation "org.testfx:testfx-core:4.0.16-alpha"
+    testImplementation "org.testfx:testfx-junit5:4.0.16-alpha"
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+jlink {
+//    addExtraDependencies("javafx")
+    options = [
+        '--compress', '2', 
+        '--no-header-files', 
+        '--no-man-pages',
+        '--include-locales', 'en,nl'
+    ]
+    launcher {
+        //name = "githubtest-${version}"
+        name = "githubtest"
+        jvmArgs = ['-Xmx2048M']
+    }
+    jpackage {
+        if (org.gradle.internal.os.OperatingSystem.current().windows) {
+            // install .NET 3.5
+            // install https://wixtoolset.org/docs/wix3/
+            installerOptions += ['--win-per-user-install', '--win-dir-chooser', '--win-menu', '--win-shortcut']
+            imageOptions += ['--win-console']
+            icon = "src/main/resources/m.nlcode.nl.ico"
+        }
+        if (org.gradle.internal.os.OperatingSystem.current().macOsX) {
+            if (JavaVersion.current() < JavaVersion.VERSION_20){
+                project.logger.lifecycle("""\n
+***************************************************************************************************
+*                                                                                                 *
+*   Mac application binaries generated with jpackage from org.beryx.jlink version 2.26.0 and a    *
+*   JDK with version < 20 will fail. You are using a JDK with a lower version number...           *
+*                                                                                                 *
+*   Type \"java -version\" to see your current JDK version.                                         *
+*                                                                                                 *
+***************************************************************************************************
+""")
+            }
+            icon = "src/main/resources/m.nlcode.nl.icns"
+        }
+    }
+    mergedModule {
+        //requires 'java.management';
+        requires 'java.naming';
+        //requires 'java.logging';
+        //requires 'java.sql';
+        //requires 'java.xml';
+        requires 'java.desktop';
+        //requires 'jdk.unsupported';
+        requires 'jdk.localedata';
+        provides 'javax.sound.midi.spi.MidiDeviceProvider' with 'uk.co.xfactorylibrarians.coremidi4j.CoreMidiDeviceProvider';
+    }
+}
