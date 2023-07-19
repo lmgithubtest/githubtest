@@ -18,14 +18,15 @@ jobs:
         distribution: 'temurin'
         java-version: '20.0.1'
     - name: Execute Gradle build
-      run: ./gradlew assemble --no-daemon
-    - name: Archive production artifacts
+      run: ./gradlew assemble jpackage --no-daemon
+    - name: Archive artifacts
       uses: actions/upload-artifact@v3
       with:
         name: linux-binaries
         path: |
           # tar, zip
-          build/distributions/**/*
+          ./build/distributions/**/*
           # main jar
-          build/libs/**/*
-          build/reports/**/*
+          ./build/libs/**/*
+          ./build/jpackage/**/*
+          ./build/reports/**/*
