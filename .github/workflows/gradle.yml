@@ -18,7 +18,7 @@ jobs:
         distribution: 'temurin'
         java-version: '20.0.1'
     - name: Execute Gradle build
-      run: ./gradlew build --no-daemon
+      run: ./gradlew assemble --no-daemon
     - name: Archive production artifacts
       uses: actions/upload-artifact@v3
       with:
