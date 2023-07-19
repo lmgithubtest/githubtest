@@ -19,4 +19,13 @@ jobs:
         java-version: '20.0.1'
     - name: Execute Gradle build
       run: ./gradlew build --no-daemon
-    
+    - name: Archive production artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: linux-binaries
+        path: |
+          # tar, zip
+          build/distributions/**/*
+          # main jar
+          build/libs/**/*
+          build/reports/**/*
