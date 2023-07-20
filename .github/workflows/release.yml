@@ -10,18 +10,17 @@ permissions:
 
 jobs:
   build:
-    if: false
     name: Gradle
     uses: ./.github/workflows/gradle.yml
   release:
-    #needs: build
+    needs: build
     name: create release
     runs-on: ubuntu-22.04
     env:
       GH_TOKEN: ${{ secrets.GH_TOKEN }}
     steps:
-      - name: ls
-        run: ls -la
+      - name: checkout
+        uses: actions/checkout@v3
       - name: create release
         run: gh release create v1.0.1 --title "v1.0.1 (alpha)" --notes "this is a alpha pre-release" --prerelease
         #run: gh release create ${GITHUB_REF#refs/*/} -t ${GITHUB_REF#refs/*/} --generate-notes --prerelease
