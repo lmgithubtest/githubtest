@@ -1,0 +1,25 @@
+name: build
+
+# see https://repo1.maven.org/maven2/org/openjfx/javafx-base/17.0.7/ for classifiers to use for JavaFX libs
+
+on:
+  push:
+    branches: [ "master" ]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: build
+    uses: ./.github/workflows/gradle.yml
+  release:
+    name: create release
+    steps:
+      - name: create release
+        run: gh release create v1.0.1 --title "v1.0.1 (alpha)" --notes "this is a alpha pre-release" --prerelease
+        #run: gh release create ${GITHUB_REF#refs/*/} -t ${GITHUB_REF#refs/*/} --generate-notes --prerelease
+      - name: upload artfacts to release
+        run: gh release upload v1.0.1 *.zip
+        #run: gh release upload ${GITHUB_REF#refs/*/} 12_ft_chrome.zip 12_ft_firefox.zip
+        
