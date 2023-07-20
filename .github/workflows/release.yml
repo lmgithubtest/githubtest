@@ -3,7 +3,7 @@ name: release
 # see https://repo1.maven.org/maven2/org/openjfx/javafx-base/17.0.7/ for classifiers to use for JavaFX libs
 
 on:
-  workflow_call:
+  workflow_dispatch:
 
 permissions:
   contents: read
