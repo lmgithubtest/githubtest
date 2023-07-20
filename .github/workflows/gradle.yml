@@ -55,7 +55,7 @@ jobs:
           ./build/jpackage/**/*
           ./build/reports/**/*
   build-win_x86_32:
-    if: true
+    if: false
     runs-on: windows-2019
     steps:
     - uses: actions/checkout@v3
@@ -70,6 +70,29 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: win_x86_32-binaries
+        path: |
+          # tar, zip
+          ./build/distributions/**/*
+          # main jar
+          ./build/libs/**/*
+          ./build/jpackage/**/*
+          ./build/reports/**/*
+  build-mac:
+    if: true
+    runs-on: macos-12
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up JDK 20
+      uses: actions/setup-java@v3
+      with:
+        distribution: 'temurin'
+        java-version: '20.0.1'
+    - name: Execute Gradle build
+      run: ./gradlew assemble jpackage --no-daemon
+    - name: Archive artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: mac-binaries
         path: |
           # tar, zip
           ./build/distributions/**/*
