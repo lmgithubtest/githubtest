@@ -99,7 +99,7 @@ jlink {
 ***************************************************************************************************
 *                                                                                                 *
 *   Mac application binaries generated with jpackage from org.beryx.jlink version 2.26.0 and a    *
-*   JDK with version < 20 will fail. You are using a JDK with a lower version number...           *
+*   lot of JDKs with version < 20 will fail. You are using a JDK with a lower version number...   *
 *                                                                                                 *
 *   Type \"java -version\" to see your current JDK version.                                         *
 *                                                                                                 *
