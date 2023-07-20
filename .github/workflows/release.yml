@@ -29,6 +29,6 @@ jobs:
         run: gh release create prerelease/v1.0.1-alpha --title "v1.0.1-alpha pre-release" --notes "this is a alpha pre-release" --prerelease
         #run: gh release create ${GITHUB_REF#refs/*/} -t ${GITHUB_REF#refs/*/} --generate-notes --prerelease
       - name: upload artfacts to release
-        run: gh release upload prerelease/v1.0.1-alpha artifacts/*
+        run: gh release upload prerelease/v1.0.1-alpha artifacts/**/*
         #run: gh release upload ${GITHUB_REF#refs/*/} 12_ft_chrome.zip 12_ft_firefox.zip
         
