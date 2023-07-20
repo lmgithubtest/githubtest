@@ -142,7 +142,7 @@ jobs:
         distribution: 'temurin'
         java-version: '20.0.1'
     - name: Execute Gradle build
-      run: ./gradlew assemble jpackage --no-daemon -PoverrideJavaFxPlatform="mac-aarch-64"
+      run: ./gradlew assemble jpackage --no-daemon -PoverrideJavaFxPlatform="mac-aarch64"
     - name: Archive artifacts
       uses: actions/upload-artifact@v3
       with:
