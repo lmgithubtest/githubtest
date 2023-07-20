@@ -15,6 +15,13 @@ repositories {
 apply plugin: 'nl.nlcode.javafxplugin'
 
 javafx {
+    if (project.hasProperty('overrideJavaFxPlatform')) {
+        // see https://repo1.maven.org/maven2/org/openjfx/javafx-base/17.0.7/
+        project.logger.lifecycle("overriding javafx platform with classifier '$overrideJavaFxPlatform'")
+        classifier = overrideJavaFxPlatform
+    } else {
+        project.logger.lifecycle("using autodetect for determining javafx platform")
+    }
     version = '17.0.7'
     modules = [ \
         'javafx.controls',
@@ -75,7 +82,7 @@ jlink {
     ]
     launcher {
         //name = "githubtest-${version}"
-        name = "githubtest"
+        name = "g"
         jvmArgs = ['-Xmx2048M']
     }
     jpackage {
@@ -100,6 +107,7 @@ jlink {
 """)
             }
             icon = "src/main/resources/m.nlcode.nl.icns"
+            vendor = "nlcode.nl"
         }
     }
     mergedModule {

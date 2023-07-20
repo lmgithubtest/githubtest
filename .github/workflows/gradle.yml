@@ -1,11 +1,42 @@
 name: Gradle build
 
+# see https://repo1.maven.org/maven2/org/openjfx/javafx-base/17.0.7/ for classifiers to use for JavaFX libs
+
 on:
   push:
     branches: [ "master" ]
 
 permissions:
   contents: read
+
+#strategy:
+#  matrix:
+#    platform: [ {runs-on: "ubuntu-22.04", name: "win_x86_32", javaFxClassifier: "win-x86", binariesPrefix: "win_x86_32"} ]
+#    
+#jobs:
+#  build:
+#    if: false
+#    runs-on: ${{matrix.platform.runs-on}}
+#    steps:
+#    - uses: actions/checkout@v3
+#    - name: Set up JDK 20
+#      uses: actions/setup-java@v3
+#      with:
+#        distribution: 'temurin'
+#        java-version: '20.0.1'
+#    - name: Execute Gradle build
+#      run: ./gradlew assemble jpackage --no-daemon -PoverrideJavaFxPlatform=${{matrix.platform.overrideJavaFxPlatform}}
+#    - name: Archive artifacts
+#      uses: actions/upload-artifact@v3
+#      with:
+#        name: ${{matrix.platform.binariesPrefix}}-binaries
+#        path: |
+#          # tar, zip
+#          ./build/distributions/**/*
+#          # main jar
+#          ./build/libs/**/*
+#          ./build/jpackage/**/*
+#          ./build/reports/**/*
 
 jobs:
   build-ubuntu:
@@ -65,7 +96,7 @@ jobs:
         distribution: 'zulu'
         java-version: '20.0.1'
     - name: Execute Gradle build
-      run: ./gradlew assemble jpackage --no-daemon
+      run: ./gradlew assemble jpackage --no-daemon -PoverrideJavaFxPlatform="win-x86"
     - name: Archive artifacts
       uses: actions/upload-artifact@v3
       with:
@@ -77,7 +108,7 @@ jobs:
           ./build/libs/**/*
           ./build/jpackage/**/*
           ./build/reports/**/*
-  build-mac:
+  build-mac_x86:
     if: true
     runs-on: macos-12
     steps:
@@ -92,7 +123,30 @@ jobs:
     - name: Archive artifacts
       uses: actions/upload-artifact@v3
       with:
-        name: mac-binaries
+        name: mac_x86-binaries
+        path: |
+          # tar, zip
+          ./build/distributions/**/*
+          # main jar
+          ./build/libs/**/*
+          ./build/jpackage/**/*
+          ./build/reports/**/*
+  build-mac_aarch64:
+    if: true
+    runs-on: macos-12
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up JDK 20
+      uses: actions/setup-java@v3
+      with:
+        distribution: 'temurin'
+        java-version: '20.0.1'
+    - name: Execute Gradle build
+      run: ./gradlew assemble jpackage --no-daemon -PoverrideJavaFxPlatform="mac-aarch-64"
+    - name: Archive artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: mac_aarch64-binaries
         path: |
           # tar, zip
           ./build/distributions/**/*
