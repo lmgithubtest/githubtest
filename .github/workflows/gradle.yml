@@ -44,7 +44,7 @@ permissions:
 
 jobs:
   build-linux-aarch64:
-    if: false
+    if: true
     runs-on: ubuntu-22.04
     steps:
     - uses: actions/checkout@v3
@@ -94,7 +94,7 @@ jobs:
     - name: Archive artifacts
       uses: actions/upload-artifact@v3
       with:
-        name: windows-binaries
+        name: windows_x64
         path: |
           ./build/artifacts/*
   build-win_x86_32:
@@ -112,7 +112,7 @@ jobs:
     - name: Archive artifacts
       uses: actions/upload-artifact@v3
       with:
-        name: win_x86_32-binaries
+        name: windows_x86_32
         path: |
           ./build/artifacts/*
   build-mac_x86:
@@ -130,7 +130,7 @@ jobs:
     - name: Archive artifacts
       uses: actions/upload-artifact@v3
       with:
-        name: mac_x86-binaries
+        name: osx_x86
         path: |
           ./build/artifacts/*
   build-mac_aarch64:
@@ -148,6 +148,6 @@ jobs:
     - name: Archive artifacts
       uses: actions/upload-artifact@v3
       with:
-        name: mac_aarch64-binaries
+        name: osx_aarch64
         path: |
           ./build/artifacts/*

@@ -49,7 +49,17 @@ jobs:
         #run: gh release create ${GITHUB_REF#refs/*/} -t ${GITHUB_REF#refs/*/} --generate-notes --prerelease
       - run: ls -la
       - run: ls -la artifacts
-      - name: upload artifacts to release
-        run: gh release upload $RELEASE_TAG artifacts/*
+      - name: upload linux_x86 artifacts to release
+        run: gh release upload $RELEASE_TAG artifacts/linux_x86/*
+      - name: upload linux_aarch64 to release
+        run: gh release upload $RELEASE_TAG artifacts/linux_aarch64/*
+#      - name: upload windows_x64 to release
+#        run: gh release upload $RELEASE_TAG artifacts/windows_x64/*
+#      - name: upload windows_x86_32 to release
+#        run: gh release upload $RELEASE_TAG artifacts/windows_x86_32/*
+#      - name: upload osx_x86 to release
+#        run: gh release upload $RELEASE_TAG artifacts/osx_x86/*
+#      - name: upload osx_aarch64 to release
+#        run: gh release upload $RELEASE_TAG artifacts/osx_aarch64/*
         #run: gh release upload ${GITHUB_REF#refs/*/} 12_ft_chrome.zip 12_ft_firefox.zip
         
