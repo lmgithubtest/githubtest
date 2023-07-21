@@ -49,9 +49,10 @@ jobs:
         #run: gh release create ${GITHUB_REF#refs/*/} -t ${GITHUB_REF#refs/*/} --generate-notes --prerelease
       - run: ls -la
       - run: ls -la artifacts
-      - run: ls -la artifacts/build
+      - run: ls -la artifacts/linux_aarch64
+      - run: ls -la artifacts/linux_aarch64/libs
       - name: upload jar artifacts to release
-        run: gh release upload $RELEASE_TAG artifacts/build/libs/*
+        run: gh release upload $RELEASE_TAG artifacts/linux_aarch64/libs/*
         #run: gh release upload ${GITHUB_REF#refs/*/} 12_ft_chrome.zip 12_ft_firefox.zip
       #- name: upload jpackage artifacts to release
       #  run: gh release upload $RELEASE_TAG artifacts/build/jpackage/*

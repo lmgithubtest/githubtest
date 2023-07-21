@@ -38,7 +38,7 @@ permissions:
 #    - name: Archive artifacts
 #      uses: actions/upload-artifact@v3
 #      with:
-#        name: ${{matrix.platform.binariesPrefix}}-binaries
+#        name: ${{matrix.platform.binariesPrefix}}
 #        path: |
 #          # tar, zip
 #          #./build/distributions/**/*
@@ -59,14 +59,14 @@ jobs:
         distribution: 'temurin'
         java-version: '20.0.1'
     - name: Execute Gradle build
-      run: ./gradlew assemble --no-daemon -PversionNumber=${{inputs.versionNumber}}
+      run: ./gradlew assemble jpackage --no-daemon -PoverrideJavaFxPlatform="linux-aarch64" -PversionNumber=${{inputs.versionNumber}}
     - name: Archive artifacts
       uses: actions/upload-artifact@v3
       with:
-        name: linux-binaries
+        name: linux_aarch64
         path: |
           ./build/libs/**/*
-          #./build/jpackage/**/*
+          ./build/jpackage/**/*
   build-windows:
     if: false
     runs-on: windows-2019
