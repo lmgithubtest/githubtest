@@ -48,6 +48,9 @@ jobs:
         run: gh release create $RELEASE_TAG --title "$RELEASE_TITLE" --notes "${{github.event.inputs.versionNotes}}" ${{ github.event.inputs.production && '--prerelease' || '' }}
         #run: gh release create ${GITHUB_REF#refs/*/} -t ${GITHUB_REF#refs/*/} --generate-notes --prerelease
       - run: ls -la artifacts
+      - run: ls -la artifacts/linux_aarch64
+      - run: ls -la artifacts/linux_x86
+      - run: find ./artifacts -mindepth 1 -maxdepth 1 -type d -exec echo "$RELEASE_TAG {}/*" \;
       - name: upload artifacts to release
         run: find ./artifacts -mindepth 1 -maxdepth 1 -type d -exec gh release upload $RELEASE_TAG {}/* \;
         #run: for dir in artifacts/*/; do; gh release upload $RELEASE_TAG $dir*; done;
