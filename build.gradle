@@ -158,6 +158,7 @@ task artifacts(type: Copy) {
     include '*.pkg'
     include '*.dmg'
     include '*.deb'
+    include '*.rpm'
     include '*.exe'
     include '*.msi'
 }

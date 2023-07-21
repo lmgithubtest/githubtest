@@ -47,12 +47,12 @@ jobs:
       - name: create release
         run: gh release create $RELEASE_TAG --title "$RELEASE_TITLE" --notes "${{github.event.inputs.versionNotes}}" ${{ github.event.inputs.production && '--prerelease' || '' }}
         #run: gh release create ${GITHUB_REF#refs/*/} -t ${GITHUB_REF#refs/*/} --generate-notes --prerelease
-      - run: ls -la
       - run: ls -la artifacts
-      - name: upload linux_x86 artifacts to release
-        run: gh release upload $RELEASE_TAG artifacts/linux_x86/*
-      - name: upload linux_aarch64 to release
-        run: gh release upload $RELEASE_TAG artifacts/linux_aarch64/*
+      - name: upload artifacts to release
+        run: for dir in artifacts/*/; do; gh release upload $RELEASE_TAG $dir*; done;
+#        run: gh release upload $RELEASE_TAG artifacts/linux_x86/*
+#      - name: upload linux_aarch64 to release
+#        run: gh release upload $RELEASE_TAG artifacts/linux_aarch64/*
 #      - name: upload windows_x64 to release
 #        run: gh release upload $RELEASE_TAG artifacts/windows_x64/*
 #      - name: upload windows_x86_32 to release
