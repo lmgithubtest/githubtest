@@ -24,7 +24,17 @@ def gitBranch() {
 }
 
 jar {
-    if (project.hasProperty('overrideJavaFxPlatform')) {
+    if (project.hasProperty('overridePlatform')) {
+        archiveAppendix = overridePlatform
+    } else if (project.hasProperty('overrideJavaFxPlatform')) {
+        archiveAppendix = overrideJavaFxPlatform
+    }
+}
+
+shadowJar {
+    if (project.hasProperty('overridePlatform')) {
+        archiveAppendix = overridePlatform
+    } else if (project.hasProperty('overrideJavaFxPlatform')) {
         archiveAppendix = overrideJavaFxPlatform
     }
 }
