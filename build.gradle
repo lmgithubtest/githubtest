@@ -23,16 +23,6 @@ def gitBranch() {
     branch
 }
 
-def versionFromGitBranch() {
-    // Do not change the versionNumber setting below. Use './gradlew build -PversionNumber=2.0.1' or
-    // something similar to set the version. 
-    // Note that the version *must* be in the form 'x.y.z' with x >= 1, y >= 0 and z >= 0, or else
-    // jpackage will produce unusable artifacts for some projects.
-    def result = "1.0.0"
-}
-
-__versionNumber__
-
 javafx {
     if (project.hasProperty('overrideJavaFxPlatform')) {
         // see https://repo1.maven.org/maven2/org/openjfx/javafx-base/17.0.7/
