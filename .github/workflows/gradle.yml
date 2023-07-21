@@ -34,7 +34,7 @@ permissions:
 #        distribution: 'temurin'
 #        java-version: '20.0.1'
 #    - name: Execute Gradle build
-#      run: ./gradlew assemble jpackage --no-daemon -PoverrideJavaFxPlatform=${{matrix.platform.overrideJavaFxPlatform}} -P${{github.event.inputs.versionNumber}}
+#      run: ./gradlew assemble jpackage --no-daemon -PoverrideJavaFxPlatform=${{matrix.platform.overrideJavaFxPlatform}} -PversionNumber=${{inputs.versionNumber}}
 #    - name: Archive artifacts
 #      uses: actions/upload-artifact@v3
 #      with:
@@ -59,7 +59,7 @@ jobs:
         distribution: 'temurin'
         java-version: '20.0.1'
     - name: Execute Gradle build
-      run: ./gradlew assemble jpackage --no-daemon -P${{github.event.inputs.versionNumber}}
+      run: ./gradlew assemble jpackage --no-daemon -PversionNumber=${{inputs.versionNumber}}
     - name: Archive artifacts
       uses: actions/upload-artifact@v3
       with:
@@ -78,7 +78,7 @@ jobs:
         distribution: 'temurin'
         java-version: '20.0.1'
     - name: Execute Gradle build
-      run: ./gradlew assemble jpackage --no-daemon -P${{github.event.inputs.versionNumber}}
+      run: ./gradlew assemble jpackage --no-daemon -PversionNumber=${{inputs.versionNumber}}
     - name: Archive artifacts
       uses: actions/upload-artifact@v3
       with:
@@ -97,7 +97,7 @@ jobs:
         distribution: 'zulu'
         java-version: '20.0.1'
     - name: Execute Gradle build
-      run: ./gradlew assemble jpackage --no-daemon -PoverrideJavaFxPlatform="win-x86" -P${{github.event.inputs.versionNumber}}
+      run: ./gradlew assemble jpackage --no-daemon -PoverrideJavaFxPlatform="win-x86" -PversionNumber=${{inputs.versionNumber}}
     - name: Archive artifacts
       uses: actions/upload-artifact@v3
       with:
@@ -117,7 +117,7 @@ jobs:
         distribution: 'temurin'
         java-version: '20.0.1'
     - name: Execute Gradle build
-      run: ./gradlew assemble jpackage --no-daemon -P${{github.event.inputs.versionNumber}}
+      run: ./gradlew assemble jpackage --no-daemon -PversionNumber=${{inputs.versionNumber}}
     - name: Archive artifacts
       uses: actions/upload-artifact@v3
       with:
@@ -137,7 +137,7 @@ jobs:
         distribution: 'temurin'
         java-version: '20.0.1'
     - name: Execute Gradle build
-      run: ./gradlew assemble jpackage --no-daemon -PoverrideJavaFxPlatform="mac-aarch64" -P${{github.event.inputs.versionNumber}}
+      run: ./gradlew assemble jpackage --no-daemon -PoverrideJavaFxPlatform="mac-aarch64" -PversionNumber=${{inputs.versionNumber}}
     - name: Archive artifacts
       uses: actions/upload-artifact@v3
       with:
