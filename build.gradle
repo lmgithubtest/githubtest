@@ -55,7 +55,7 @@ test {
 }
 
 group = 'githubtest'
-//version = gitBranch()
+version = versionNumber
 
 ext {
     jacksonVersion = '2.14.2'
@@ -91,7 +91,6 @@ jlink {
     ]
     launcher {
         //name = "githubtest-${version}"
-        name = "g"
         jvmArgs = ['-Xmx2048M']
     }
     jpackage {
