@@ -11,7 +11,7 @@ on:
         default: true
       versionNumber:
         type: string
-        description: must be in form 'x.y.z' with x >= 1, y >= 0 and z >= 0
+        description: version number; must be in form 'x.y.z' with x >= 1, y >= 0 and z >= 0
         required: true
       versionNotes:
         type: string
@@ -47,9 +47,12 @@ jobs:
       - name: create release
         run: gh release create $RELEASE_TAG --title "$RELEASE_TITLE" --notes "${{github.event.inputs.versionNotes}}" ${{ github.event.inputs.production && '--prerelease' || '' }}
         #run: gh release create ${GITHUB_REF#refs/*/} -t ${GITHUB_REF#refs/*/} --generate-notes --prerelease
-      - name: upload jpackage artifacts to release
-        run: gh release upload $RELEASE_TAG artifacts/jpackage/*
+      - run: ls -la
+      - run: ls -la artifacts
+      - run: ls -la artifacts/build
       - name: upload jar artifacts to release
-        run: gh release upload $RELEASE_TAG artifacts/libs/*
+        run: gh release upload $RELEASE_TAG artifacts/build/libs/*
         #run: gh release upload ${GITHUB_REF#refs/*/} 12_ft_chrome.zip 12_ft_firefox.zip
+      #- name: upload jpackage artifacts to release
+      #  run: gh release upload $RELEASE_TAG artifacts/build/jpackage/*
         
