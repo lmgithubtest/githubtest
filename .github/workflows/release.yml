@@ -49,24 +49,7 @@ jobs:
         #run: gh release create ${GITHUB_REF#refs/*/} -t ${GITHUB_REF#refs/*/} --generate-notes --prerelease
       - run: ls -la
       - run: ls -la artifacts
-      - run: ls -la artifacts/linux_x86
-      - run: ls -la artifacts/linux_x86/jpackage
-      - name: upload jar artifacts to release
-        run: gh release upload $RELEASE_TAG artifacts/linux_x86/libs/*
+      - name: upload artifacts to release
+        run: gh release upload $RELEASE_TAG artifacts/*
         #run: gh release upload ${GITHUB_REF#refs/*/} 12_ft_chrome.zip 12_ft_firefox.zip
-      - name: upload .deb to release
-        run: gh release upload $RELEASE_TAG artifacts/linux_x86/jpackage/*.deb
-      - name: upload .rpm to release
-        # TODO FIXME: for some strange reason the rpm here is called <name>-<version>-1.x86_64.rpm
-        # x86 for an AMD version???
-        run: gh release upload $RELEASE_TAG artifacts/linux_x86/jpackage/*.rpm
-      - name: upload jar artifacts to release
-        run: gh release upload $RELEASE_TAG artifacts/linux_aarch64/libs/*
-        #run: gh release upload ${GITHUB_REF#refs/*/} 12_ft_chrome.zip 12_ft_firefox.zip
-      - name: upload .deb to release
-        run: gh release upload $RELEASE_TAG artifacts/linux_aarch64/jpackage/*.deb
-      - name: upload .rpm to release
-        # TODO FIXME: for some strange reason the rpm here is called <name>-<version>-1.x86_64.rpm
-        # x86 for an AMD version???
-        run: gh release upload $RELEASE_TAG artifacts/linux_aarch64/jpackage/*.rpm
         

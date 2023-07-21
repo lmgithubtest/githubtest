@@ -20,7 +20,7 @@ permissions:
 
 #strategy:
 #  matrix:
-#    platform: [ {runs-on: "ubuntu-22.04", name: "win_x86_32", javaFxClassifier: "win-x86", binariesPrefix: "win_x86_32"} ]
+#    platform: [ {runs-on: "ubuntu-22.04", name: "win_x86_32", overrideJavaFxPlatform: "win-x86", overridePlatform: "windows_x86_32"} ]
 #    
 #jobs:
 #  build:
@@ -34,18 +34,13 @@ permissions:
 #        distribution: 'temurin'
 #        java-version: '20.0.1'
 #    - name: Execute Gradle build
-#      run: ./gradlew assemble jpackage --no-daemon -PoverrideJavaFxPlatform=${{matrix.platform.overrideJavaFxPlatform}} -PversionNumber=${{inputs.versionNumber}}
+#      run: ./gradlew artifacts --no-daemon -PoverrideJavaFxPlatform=${{matrix.platform.overrideJavaFxPlatform}} -PoverridePlatform="${{matrix.platform.overridePlatform}}" -PversionNumber=${{inputs.versionNumber}}
 #    - name: Archive artifacts
 #      uses: actions/upload-artifact@v3
 #      with:
-#        name: ${{matrix.platform.binariesPrefix}}
+#        name: ${{matrix.platform.overridePlatform}}
 #        path: |
-#          # tar, zip
-#          #./build/distributions/**/*
-#          # main jar
-#          ./build/libs/**/*
-#          ./build/jpackage/**/*
-#          #./build/reports/**/*
+          ./build/artifacts/*
 
 jobs:
   build-linux-aarch64:
@@ -59,14 +54,13 @@ jobs:
         distribution: 'temurin'
         java-version: '20.0.1'
     - name: Execute Gradle build
-      run: ./gradlew assemble jpackage --no-daemon -PoverrideJavaFxPlatform="linux-aarch64" -PversionNumber=${{inputs.versionNumber}}
+      run: ./gradlew artifacts --no-daemon -PoverrideJavaFxPlatform="linux-aarch64" -PoverridePlatform="linux_aarch64" -PversionNumber=${{inputs.versionNumber}}
     - name: Archive artifacts
       uses: actions/upload-artifact@v3
       with:
         name: linux_aarch64
         path: |
-          ./build/libs/**/*
-          ./build/jpackage/**/*
+          ./build/artifacts/*
   build-linux-x86:
     if: true
     runs-on: ubuntu-22.04
@@ -78,14 +72,13 @@ jobs:
         distribution: 'temurin'
         java-version: '20.0.1'
     - name: Execute Gradle build
-      run: ./gradlew assemble jpackage --no-daemon -PoverrideJavaFxPlatform="linux" -PversionNumber=${{inputs.versionNumber}}
+      run: ./gradlew artifacts --no-daemon -PoverrideJavaFxPlatform="linux" -PoverridePlatform="linux_x86" -PversionNumber=${{inputs.versionNumber}}
     - name: Archive artifacts
       uses: actions/upload-artifact@v3
       with:
         name: linux_x86
         path: |
-          ./build/libs/**/*
-          ./build/jpackage/**/*
+          ./build/artifacts/*
   build-windows:
     if: false
     runs-on: windows-2019
@@ -97,14 +90,13 @@ jobs:
         distribution: 'temurin'
         java-version: '20.0.1'
     - name: Execute Gradle build
-      run: ./gradlew assemble jpackage --no-daemon -PversionNumber=${{inputs.versionNumber}}
+      run: ./gradlew artifacts --no-daemon -PversionNumber=${{inputs.versionNumber}}
     - name: Archive artifacts
       uses: actions/upload-artifact@v3
       with:
         name: windows-binaries
         path: |
-          ./build/libs/**/*
-          ./build/jpackage/**/*
+          ./build/artifacts/*
   build-win_x86_32:
     if: false
     runs-on: windows-2019
@@ -116,15 +108,13 @@ jobs:
         distribution: 'zulu'
         java-version: '20.0.1'
     - name: Execute Gradle build
-      run: ./gradlew assemble jpackage --no-daemon -PoverrideJavaFxPlatform="win-x86" -PversionNumber=${{inputs.versionNumber}}
+      run: ./gradlew artifacts --no-daemon -PoverrideJavaFxPlatform="win-x86" -PversionNumber=${{inputs.versionNumber}}
     - name: Archive artifacts
       uses: actions/upload-artifact@v3
       with:
         name: win_x86_32-binaries
         path: |
-          ./build/libs/**/*
-          ./build/jpackage/**/*
-          #./build/reports/**/*
+          ./build/artifacts/*
   build-mac_x86:
     if: false
     runs-on: macos-12
@@ -136,15 +126,13 @@ jobs:
         distribution: 'temurin'
         java-version: '20.0.1'
     - name: Execute Gradle build
-      run: ./gradlew assemble jpackage --no-daemon -PversionNumber=${{inputs.versionNumber}}
+      run: ./gradlew artifacts --no-daemon -PversionNumber=${{inputs.versionNumber}}
     - name: Archive artifacts
       uses: actions/upload-artifact@v3
       with:
         name: mac_x86-binaries
         path: |
-          ./build/libs/**/*
-          ./build/jpackage/**/*
-          #./build/reports/**/*
+          ./build/artifacts/*
   build-mac_aarch64:
     if: false
     runs-on: macos-12
@@ -156,12 +144,10 @@ jobs:
         distribution: 'temurin'
         java-version: '20.0.1'
     - name: Execute Gradle build
-      run: ./gradlew assemble jpackage --no-daemon -PoverrideJavaFxPlatform="mac-aarch64" -PversionNumber=${{inputs.versionNumber}}
+      run: ./gradlew artifacts --no-daemon -PoverrideJavaFxPlatform="mac-aarch64" -PversionNumber=${{inputs.versionNumber}}
     - name: Archive artifacts
       uses: actions/upload-artifact@v3
       with:
         name: mac_aarch64-binaries
         path: |
-          ./build/libs/**/*
-          ./build/jpackage/**/*
-          #./build/reports/**/*
+          ./build/artifacts/*

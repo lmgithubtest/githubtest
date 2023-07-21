@@ -98,7 +98,6 @@ tasks.withType(JavaCompile) {
 }
 
 jlink {
-//    addExtraDependencies("javafx")
     options = [
         '--compress', '2', 
         '--no-header-files', 
@@ -106,7 +105,9 @@ jlink {
         '--include-locales', 'en,nl'
     ]
     launcher {
-        //name = "githubtest-${version}"
+        if (project.hasProperty('overridePlatform')) {
+            name = project.name + '_' + overridePlatform
+        }
         jvmArgs = ['-Xmx2048M']
     }
     jpackage {
@@ -145,4 +146,18 @@ jlink {
         requires 'jdk.localedata';
         provides 'javax.sound.midi.spi.MidiDeviceProvider' with 'uk.co.xfactorylibrarians.coremidi4j.CoreMidiDeviceProvider';
     }
+}
+
+task artifacts(type: Copy) {
+    description 'Copies all artifacts into one place.'
+    from jar
+    from shadowJar
+    from jpackage
+    into "$buildDir/artifacts"
+    include '*.jar'
+    include '*.pkg'
+    include '*.dmg'
+    include '*.deb'
+    include '*.exe'
+    include '*.msi'
 }
