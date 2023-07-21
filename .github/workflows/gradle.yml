@@ -40,7 +40,7 @@ permissions:
 #      with:
 #        name: ${{matrix.platform.overridePlatform}}
 #        path: |
-          ./build/artifacts/*
+#          ./build/artifacts/*
 
 jobs:
   build-linux-aarch64:
