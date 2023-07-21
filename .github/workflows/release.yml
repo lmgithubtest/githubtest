@@ -4,14 +4,33 @@ name: release
 
 on:
   workflow_dispatch:
+    inputs:
+      prerelease:
+        type: boolean
+        required: true
+        default: true
+      versionNumber:
+        type: string
+        description: must be in form 'x.y.z' with x >= 1, y >= 0 and z >= 0
+        required: true
+      versionNotes:
+        type: string
+        description: Github release notes
+        required: true
 
 permissions:
-  contents: read
+  contents: write
 
+env:
+  RELEASE_TAG: ${{ github.event.inputs.production && 'pre' || '' }}release/v${{ github.event.inputs.versionNumber }}${{ github.event.inputs.prerelease && '-PRERELEASE' || '' }}
+  RELEASE_TITLE: v${{ github.event.inputs.versionNumber }}${{ github.event.inputs.prerelease && ' pre-release' || '' }}
+      
 jobs:
   build:
     name: Gradle
     uses: ./.github/workflows/gradle.yml
+    with:
+      versionNumber: ${{ github.event.inputs.versionNumber }}
   release:
     needs: build
     name: create release
@@ -26,9 +45,11 @@ jobs:
         with:
           path: artifacts
       - name: create release
-        run: gh release create prerelease/v1.0.1-alpha --title "v1.0.1-alpha pre-release" --notes "this is a alpha pre-release" --prerelease
+        run: gh release create $RELEASE_TAG --title "$RELEASE_TITLE" --notes "${{github.event.inputs.versionNotes}}" ${{ github.event.inputs.production && '--prerelease' || '' }}
         #run: gh release create ${GITHUB_REF#refs/*/} -t ${GITHUB_REF#refs/*/} --generate-notes --prerelease
-      - name: upload artfacts to release
-        run: gh release upload prerelease/v1.0.1-alpha artifacts/**/*
+      - name: upload jpackage artifacts to release
+        run: gh release upload $RELEASE_TAG artifacts/jpackage/*
+      - name: upload jar artifacts to release
+        run: gh release upload $RELEASE_TAG artifacts/libs/*
         #run: gh release upload ${GITHUB_REF#refs/*/} 12_ft_chrome.zip 12_ft_firefox.zip
         
