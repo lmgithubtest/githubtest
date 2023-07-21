@@ -50,10 +50,10 @@ jobs:
       - run: ls -la
       - run: ls -la artifacts
       - run: ls -la artifacts/linux_aarch64
-      - run: ls -la artifacts/linux_aarch64/libs
+      - run: ls -la artifacts/linux_aarch64/jpackage
       - name: upload jar artifacts to release
         run: gh release upload $RELEASE_TAG artifacts/linux_aarch64/libs/*
         #run: gh release upload ${GITHUB_REF#refs/*/} 12_ft_chrome.zip 12_ft_firefox.zip
-      #- name: upload jpackage artifacts to release
-      #  run: gh release upload $RELEASE_TAG artifacts/build/jpackage/*
+      - name: upload jpackage artifacts to release
+        run: gh release upload $RELEASE_TAG artifacts/linux_aarch64/jpackage/*
         
