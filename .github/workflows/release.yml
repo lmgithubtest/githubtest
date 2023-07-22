@@ -20,7 +20,7 @@ permissions:
   contents: write
 
 env:
-  RELEASE_TAG: ${{ github.event.inputs.production && 'pre' || '' }}release/v${{ github.event.inputs.versionNumber }}${{ github.event.inputs.prerelease && '-PRERELEASE' || '' }}
+  RELEASE_TAG: ${{ github.event.inputs.prerelease && 'pre' || '' }}release/v${{ github.event.inputs.versionNumber }}${{ github.event.inputs.prerelease && '-PRERELEASE' || '' }}
   RELEASE_TITLE: v${{ github.event.inputs.versionNumber }}${{ github.event.inputs.prerelease && ' pre-release' || '' }} ${{$(date +"%Y-%m-%dT%H:%M:%S%z")}}
       
 jobs:
