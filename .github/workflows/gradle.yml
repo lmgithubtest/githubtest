@@ -37,7 +37,7 @@ jobs:
     - name: Set up JDK 20
       uses: actions/setup-java@v3
       with:
-        distribution: 'temurin'
+        distribution: 'oracle'
         java-version: '20.0.2'
     - name: Execute Gradle build
       run: ./gradlew artifacts --no-daemon -PoverrideJavaFxPlatform=${{matrix.platform.overrideJavaFxPlatform}} -PoverridePlatform="${{matrix.platform.name}}" -PversionNumber=${{inputs.versionNumber}}
