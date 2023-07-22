@@ -24,11 +24,12 @@ jobs:
       matrix:
         platform:
           [ 
-            {runs-on: "ubuntu-22.04", name: "linux-aarch64", overrideJavaFxPlatform: "linux-aarch64", overridePlatform: "linux_aarch64"},
-            {runs-on: "ubuntu-22.04", name: "linux_x86", overrideJavaFxPlatform: "linux", overridePlatform: "linux_x86"},
-            {runs-on: "macos-12", name: "osx_x86", overrideJavaFxPlatform: "mac", overridePlatform: "osx_x86"},
-            {runs-on: "windows-2019", name: "windows_x86", overrideJavaFxPlatform: "win_x86", overridePlatform: "windows_x86"},
-            {runs-on: "windows-2019", name: "windows_x64", overrideJavaFxPlatform: "win", overridePlatform: "windows_x64"},
+            {runs-on: "ubuntu-22.04", name: "linux-aarch64", overrideJavaFxPlatform: "linux-aarch64"},
+            {runs-on: "ubuntu-22.04", name: "linux_x86", overrideJavaFxPlatform: "linux"},
+            {runs-on: "macos-12", name: "osx_x86", overrideJavaFxPlatform: "mac"},
+            {runs-on: "macos-12", name: "osx_aarch64", overrideJavaFxPlatform: "mac-aarch64"},
+            {runs-on: "windows-2019", name: "windows_x86_32", overrideJavaFxPlatform: "win_x86"},
+            {runs-on: "windows-2019", name: "windows_x64", overrideJavaFxPlatform: "win"},
           ]
     runs-on: ${{matrix.platform.runs-on}}
     steps:
@@ -39,7 +40,7 @@ jobs:
         distribution: 'temurin'
         java-version: '20.0.1'
     - name: Execute Gradle build
-      run: ./gradlew artifacts --no-daemon -PoverrideJavaFxPlatform=${{matrix.platform.overrideJavaFxPlatform}} -PoverridePlatform="${{matrix.platform.overridePlatform}}" -PversionNumber=${{inputs.versionNumber}}
+      run: ./gradlew artifacts --no-daemon -PoverrideJavaFxPlatform=${{matrix.platform.overrideJavaFxPlatform}} -PoverridePlatform="${{matrix.platform.name}}" -PversionNumber=${{inputs.versionNumber}}
     - name: Archive artifacts
       uses: actions/upload-artifact@v3
       with:
