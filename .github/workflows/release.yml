@@ -1,7 +1,5 @@
 name: release
 
-# see https://repo1.maven.org/maven2/org/openjfx/javafx-base/17.0.7/ for classifiers to use for JavaFX libs
-
 on:
   workflow_dispatch:
     inputs:
@@ -23,7 +21,7 @@ permissions:
 
 env:
   RELEASE_TAG: ${{ github.event.inputs.production && 'pre' || '' }}release/v${{ github.event.inputs.versionNumber }}${{ github.event.inputs.prerelease && '-PRERELEASE' || '' }}
-  RELEASE_TITLE: v${{ github.event.inputs.versionNumber }}${{ github.event.inputs.prerelease && ' pre-release' || '' }}
+  RELEASE_TITLE: v${{ github.event.inputs.versionNumber }}${{ github.event.inputs.prerelease && ' pre-release' || '' }} ${{$(date +"%Y-%m-%dT%H:%M:%S%z")}}
       
 jobs:
   build:
@@ -46,21 +44,7 @@ jobs:
           path: artifacts
       - name: create release
         run: gh release create $RELEASE_TAG --title "$RELEASE_TITLE" --notes "${{github.event.inputs.versionNotes}}" ${{ github.event.inputs.production && '--prerelease' || '' }}
-        #run: gh release create ${GITHUB_REF#refs/*/} -t ${GITHUB_REF#refs/*/} --generate-notes --prerelease
       - run: find artifacts/
       - name: upload artifacts to release
         run: find ./artifacts -mindepth 2 -maxdepth 2 -type f -exec gh release upload $RELEASE_TAG {} \;
-        #run: for dir in artifacts/*/; do; gh release upload $RELEASE_TAG $dir*; done;
-#        run: gh release upload $RELEASE_TAG artifacts/linux_x86/*
-#      - name: upload linux_aarch64 to release
-#        run: gh release upload $RELEASE_TAG artifacts/linux_aarch64/*
-#      - name: upload windows_x64 to release
-#        run: gh release upload $RELEASE_TAG artifacts/windows_x64/*
-#      - name: upload windows_x86_32 to release
-#        run: gh release upload $RELEASE_TAG artifacts/windows_x86_32/*
-#      - name: upload osx_x86 to release
-#        run: gh release upload $RELEASE_TAG artifacts/osx_x86/*
-#      - name: upload osx_aarch64 to release
-#        run: gh release upload $RELEASE_TAG artifacts/osx_aarch64/*
-        #run: gh release upload ${GITHUB_REF#refs/*/} 12_ft_chrome.zip 12_ft_firefox.zip
         
