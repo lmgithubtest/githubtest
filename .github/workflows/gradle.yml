@@ -34,11 +34,11 @@ jobs:
     runs-on: ${{matrix.platform.runs-on}}
     steps:
     - uses: actions/checkout@v3
-    - name: Set up JDK 20
+    - name: Set up JDK
       uses: actions/setup-java@v3
       with:
         distribution: 'oracle'
-        java-version: '20.0.2'
+        java-version: '17.0.8'
     - name: Execute Gradle build
       run: ./gradlew artifacts --no-daemon -PoverrideJavaFxPlatform=${{matrix.platform.overrideJavaFxPlatform}} -PoverridePlatform="${{matrix.platform.name}}" -PversionNumber=${{inputs.versionNumber}}
     - name: Archive artifacts
