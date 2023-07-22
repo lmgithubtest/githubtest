@@ -17,19 +17,17 @@ on:
 
 permissions:
   contents: read
-
-strategy:
-  matrix:
-    platform: >
-      [ 
-        {runs-on: "ubuntu-22.04", name: "linux-aarch64", overrideJavaFxPlatform: "linux-aarch64", overridePlatform: "linux_aarch64"},
-        {runs-on: "ubuntu-22.04", name: "linux_x86", overrideJavaFxPlatform: "linux", overridePlatform: "linux_x86"},
-        {runs-on: "macos-12", name: "osx_x86", overrideJavaFxPlatform: "mac", overridePlatform: "osx_x86"},
-      ]
     
 jobs:
   build:
-    if: false
+    strategy:
+      matrix:
+        platform: >
+          [ 
+            {runs-on: "ubuntu-22.04", name: "linux-aarch64", overrideJavaFxPlatform: "linux-aarch64", overridePlatform: "linux_aarch64"},
+            {runs-on: "ubuntu-22.04", name: "linux_x86", overrideJavaFxPlatform: "linux", overridePlatform: "linux_x86"},
+            {runs-on: "macos-12", name: "osx_x86", overrideJavaFxPlatform: "mac", overridePlatform: "osx_x86"},
+          ]
     runs-on: ${{matrix.platform.runs-on}}
     steps:
     - uses: actions/checkout@v3
